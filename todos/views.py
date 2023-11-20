@@ -1,35 +1,32 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views import generic
+{
+  "codeChangeList": [
+    {
+      "filePath": "todos/models.py",
+      "code": """
+from django.db import models
+
+class Todo(models.Model):
+    title = models.CharField(max_length=100)
+    body = models.TextField(blank=True, null=True)  # New field for storing longer text content
+    created_at = models.DateTimeField('Created', auto_now_add=True)
+    update_at = models.DateTimeField('Updated', auto_now=True)
+    isCompleted = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.title
+"""
+    },
+    {
+      "filePath": "todos/forms.py",
+      "code": """
+from django import forms
 from .models import Todo
-from django.http import HttpResponseRedirect
 
-class IndexView(generic.ListView):
-    template_name = 'todos/index.html'
-    context_object_name = 'todo_list'
-
-    def get_queryset(self):
-        """Return all the latest todos."""
-        return Todo.objects.order_by('-created_at')
-
-def add(request):
-    title = request.POST['title']
-    Todo.objects.create(title=title)
-
-    return redirect('todos:index')
-
-def delete(request, todo_id):
-    todo = get_object_or_404(Todo, pk=todo_id)
-    todo.delete()
-
-    return redirect('todos:index')
-
-def update(request, todo_id):
-    todo = get_object_or_404(Todo, pk=todo_id)
-    isCompleted = request.POST.get('isCompleted', False)
-    if isCompleted == 'on':
-        isCompleted = True
-    
-    todo.isCompleted = isCompleted
-
-    todo.save()
-    return redirect('todos:index')
+class TodoForm(forms.ModelForm):
+    class Meta:
+        model = Todo
+        fields = ['title', 'body', 'isCompleted']  # Include the body field
+"""
+    }
+  ]
+}
