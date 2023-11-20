@@ -26,6 +26,12 @@ class TodoForm(forms.ModelForm):
     class Meta:
         model = Todo
         fields = ['title', 'body', 'isCompleted']  # Include the body field
+
+    def save(self, commit=True):
+        todo = super(TodoForm, self).save(commit=False)
+        if commit:
+            todo.save()
+        return todo
 """
     }
   ]
