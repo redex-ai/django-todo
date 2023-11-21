@@ -7,7 +7,7 @@ from django.db import models
 
 class Todo(models.Model):
     title = models.CharField(max_length=100)
-    body = models.TextField(blank=True, null=True)  # New TextField to store the body of the note
+    body = models.TextField(blank=True, null=True)  # New field added
     created_at = models.DateTimeField('Created', auto_now_add=True)
     update_at = models.DateTimeField('Updated', auto_now=True)
     isCompleted = models.BooleanField(default=False)
@@ -37,7 +37,7 @@ from .models import Todo
 class TodoForm(forms.ModelForm):
     class Meta:
         model = Todo
-        fields = ['title', 'body', 'isCompleted']  # Add the body field to the TodoForm
+        fields = ['title', 'body', 'isCompleted']  # Add the body field
 """
     },
     {
@@ -46,7 +46,7 @@ class TodoForm(forms.ModelForm):
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from .models import Todo
-from .forms import TodoForm  # Import TodoForm
+from .forms import TodoForm  # Import the TodoForm
 from django.http import HttpResponseRedirect
 
 class IndexView(generic.ListView):
@@ -65,7 +65,7 @@ def add(request):
             return redirect('todos:index')
     else:
         form = TodoForm()
-    return render(request, 'todos/add.html', {'form': form})
+    return render(request, 'todos/todo_form.html', {'form': form})
 
 def delete(request, todo_id):
     todo = get_object_or_404(Todo, pk=todo_id)
@@ -81,7 +81,21 @@ def update(request, todo_id):
             return redirect('todos:index')
     else:
         form = TodoForm(instance=todo)
-    return render(request, 'todos/update.html', {'form': form})
+    return render(request, 'todos/todo_form.html', {'form': form})
+"""
+    },
+    {
+      "filePath": "todos/templates/todos/todo_form.html",
+      "code": """
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+  </form>
+{% endblock %}
 """
     }
   ]

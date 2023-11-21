@@ -27,6 +27,18 @@ class TodoAdmin(admin.ModelAdmin):
 
 admin.site.register(Todo, TodoAdmin)
 """
+    },
+    {
+      "filePath": "todos/forms.py",
+      "code": """
+from django import forms
+from .models import Todo
+
+class TodoForm(forms.ModelForm):
+    class Meta:
+        model = Todo
+        fields = ['title', 'body', 'isCompleted']  # Add the body field to the TodoForm
+"""
     }
   ]
 }
