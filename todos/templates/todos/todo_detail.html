@@ -1,0 +1,11 @@
+```
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>{{ todo.title }}</h1>
+  <p><strong>Created:</strong> {{ todo.created_at }}</p>
+  <p><strong>Updated:</strong> {{ todo.update_at }}</p>
+  <p><strong>Completed:</strong> {{ todo.isCompleted }}</p>
+  <p><strong>Body:</strong> {{ todo.body }}</p>
+{% endblock %}
+```
