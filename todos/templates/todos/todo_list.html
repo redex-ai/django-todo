@@ -1,0 +1,17 @@
+```
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Todo List</h1>
+  <ul>
+    {% for todo in todo_list %}
+      <li>
+        <a href="{% url 'todos:detail' todo.id %}">{{ todo.title }}</a>
+        {% if todo.body %}
+          <p>{{ todo.body|truncatechars:50 }}</p>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
+```
