@@ -13,7 +13,8 @@ class IndexView(generic.ListView):
 
 def add(request):
     title = request.POST['title']
-    Todo.objects.create(title=title)
+    body = request.POST.get('body', '')
+    Todo.objects.create(title=title, body=body)
 
     return redirect('todos:index')
 
@@ -26,10 +27,11 @@ def delete(request, todo_id):
 def update(request, todo_id):
     todo = get_object_or_404(Todo, pk=todo_id)
     isCompleted = request.POST.get('isCompleted', False)
+    body = request.POST.get('body', '')
     if isCompleted == 'on':
         isCompleted = True
     
     todo.isCompleted = isCompleted
-
+    todo.body = body
     todo.save()
     return redirect('todos:index')
