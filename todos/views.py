@@ -13,7 +13,8 @@ class IndexView(generic.ListView):
 
 def add(request):
     title = request.POST['title']
-    Todo.objects.create(title=title)
+    body = request.POST.get('body', '')
+    Todo.objects.create(title=title, body=body)
 
     return redirect('todos:index')
 
