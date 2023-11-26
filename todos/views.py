@@ -11,9 +11,11 @@ class IndexView(generic.ListView):
         """Return all the latest todos."""
         return Todo.objects.order_by('-created_at')
 
+
 def add(request):
     title = request.POST['title']
-    Todo.objects.create(title=title)
+    body = request.POST.get('body', '')
+    Todo.objects.create(title=title, body=body)
 
     return redirect('todos:index')
 
@@ -23,6 +25,7 @@ def delete(request, todo_id):
 
     return redirect('todos:index')
 
+
 def update(request, todo_id):
     todo = get_object_or_404(Todo, pk=todo_id)
     isCompleted = request.POST.get('isCompleted', False)
@@ -30,6 +33,7 @@ def update(request, todo_id):
         isCompleted = True
     
     todo.isCompleted = isCompleted
+    todo.body = request.POST.get('body', '')
 
     todo.save()
     return redirect('todos:index')
