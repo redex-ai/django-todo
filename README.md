@@ -22,9 +22,6 @@ Now, to apply this migrations run the following command
 $ python manage.py migrate
 ```
 
-
-
-
 One last step and then our todo App will be live. We need to create an admin user to run this App. On the terminal, type the following command and provide username, password and email for the admin user
 ```bash
 $ python manage.py createsuperuser
@@ -37,5 +34,13 @@ $ python manage.py runserver
 ```
 
 Once the server is hosted, head over to http://127.0.0.1:8000/todos for the App.
+
+Additionally, we have a new management command to generate a static text file with a story. To create this file, run the following command:
+
+```bash
+$ python manage.py create_story_file
+```
+
+This command will generate a file named `story.txt` in the root directory of the project, containing a simple story for you to enjoy.
 
 Cheers and Happy Coding :)
